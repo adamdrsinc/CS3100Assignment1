@@ -7,13 +7,12 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        String[] splitUserInput;
-        String rawUserInput;
-        Scanner scanner = new Scanner(System.in);
-
+        //The various commands users can enter in.
         final String FIB_COMMAND = "-fib";
         final String FAC_COMMAND = "-fac";
         final String E_COMMAND   = "-e";
+
+        Scanner scanner = new Scanner(System.in);
 
 
         System.out.println("""
@@ -27,6 +26,11 @@ public class Main {
         while(true){
             System.out.println("Enter commands:");
 
+            //Holds the user input which is split by space.
+            String[] splitUserInput;
+            //Holds the raw user input.
+            String rawUserInput;
+
             rawUserInput = scanner.nextLine();
 
             //Check if user wants to quit.
@@ -38,7 +42,11 @@ public class Main {
             //Splitting user input by space.
             splitUserInput = rawUserInput.split(" ");
 
+            //How many individual "words" there are.
             int argCount = splitUserInput.length;
+
+            //Each command must be paired with a number. If there are too few arguments, then the command cannot be
+            //executed successfully.
             for (int i = 0; i < splitUserInput.length; i+=2){
                 if(argCount < 2){
                     System.out.println("Latest command not provided in format specified.");
@@ -47,9 +55,13 @@ public class Main {
                 }
                 argCount -= 2;
 
+                //The command.
+                String command = splitUserInput[i];
+                //The number associated with the given command.
                 String potentialNumber = splitUserInput[i+1];
 
                 Integer convertedNumber;
+                //Checking if the given number is within the bounds of an Integer.
                 if(!validIntegerSize(potentialNumber)){
                     System.out.printf("Number given must be between %d and %d.\n", Integer.MIN_VALUE, Integer.MAX_VALUE);
                     continue;
@@ -57,7 +69,7 @@ public class Main {
                     convertedNumber = Integer.parseInt(potentialNumber);
                 }
 
-                switch (splitUserInput[i]) {
+                switch (command) {
                     case FIB_COMMAND -> {
 
                         Integer fibNumber = getFib(convertedNumber);
@@ -105,8 +117,9 @@ public class Main {
 
     /**
      * Prints the help to screen.
+     * @author Adam Sinclair
      **/
-    public static void printHelp(){
+    private static void printHelp(){
         System.out.println(
                 """
                         --- Assign 1 Help ---\s
@@ -117,22 +130,31 @@ public class Main {
         );
     }
 
+    /**
+     * Checks if a given String can be:
+     * 1: Converted to an Integer.
+     * 2: If the converted String's value is within the restrictions of the Integer type.
+     * @author Adam Sinclair
+     * */
     private static boolean validIntegerSize(String n) {
         if (n == null) return false;
 
         BigInteger maxInt = BigInteger.valueOf(Integer.MAX_VALUE);
         BigInteger minInt = BigInteger.valueOf(Integer.MIN_VALUE);
         BigInteger bigIntPotentialNumber;
+        //If the provided String cannot be converted to a numerical data type, then it cannot become a valid Integer.
         try{
             bigIntPotentialNumber = BigInteger.valueOf(Long.parseLong(n));
         }catch(Exception exception){
             return false;
         }
 
+        //If the converted number is greater than the maximum value of an Integer, it is not valid.
         if(bigIntPotentialNumber.compareTo(maxInt) > 0) {
             return false;
         }
 
+        //If the converted number is smaller than the minimum value of an Integer, it is not valid.
         if(bigIntPotentialNumber.compareTo(minInt) < 0){
             return false;
         }
@@ -142,9 +164,10 @@ public class Main {
 
 
     /**
-     * A method which returns the nth fibonacci number, where n is the parameter provided.
+     * A method which returns the nth fibonacci number, where n is the Integer provided.
+     * @author Adam Sinclair
      */
-    public static Integer getFib(Integer n){
+    private static Integer getFib(Integer n){
         if (n == null) return null;
 
         //Check range of given number
@@ -157,6 +180,7 @@ public class Main {
         int secondNum = 1;
         int tempNum;
 
+        //Performing the fibonacci additions.
         for(int i = 1; i < n; i++){
             tempNum = firstNum + secondNum;
             firstNum = secondNum;
@@ -168,9 +192,10 @@ public class Main {
     }
 
     /**
-     * A method which returns the factorial of n, where n is the parameter provided.
+     * A method which returns the factorial of n, where n is the Integer provided.
+     * @author Adam Sinclair
      **/
-    public static BigInteger getFac(Integer n){
+    private static BigInteger getFac(Integer n){
         if (n == null) return null;
         if(n < 0) return null;
 
@@ -185,9 +210,10 @@ public class Main {
     }
 
     /**
-     * Returns an estimate of e based on n terms, where n is the provided parameter.
+     * Returns an estimate of e based on n terms, where n is the Integer parameter.
+     * @author Adam Sinclair
      **/
-    public static BigDecimal getE(Integer n){
+    private static BigDecimal getE(Integer n){
         if(n == null) return null;
         if(n < 1) return null;
 
