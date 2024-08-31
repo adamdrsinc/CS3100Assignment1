@@ -4,7 +4,7 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Scanner;
 
-public class Main {
+public class Assign1 {
 
     public static void main(String[] args) {
         //The various commands users can enter in.
@@ -32,6 +32,7 @@ public class Main {
             String rawUserInput;
 
             rawUserInput = scanner.nextLine();
+            rawUserInput = rawUserInput.trim();
 
             //Check if user wants to quit.
             if(rawUserInput.equalsIgnoreCase("q")){
