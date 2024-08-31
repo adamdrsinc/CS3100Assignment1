@@ -106,7 +106,7 @@ public class Main {
                 }
 
 
-                System.out.println("Unknown command entered.\n");
+                System.out.printf("Unknown command entered: %s\n", command);
                 printHelp();
                 break;
             }
